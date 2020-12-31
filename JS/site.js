@@ -14,6 +14,15 @@ function Mortgage(amount, rate, terms) {
     }
 }
 
+function logSubmit(event) {
+    log.textContent = 'Form Submitted! Time stamp: ${event.timeStamp}';
+    event.preventDefault();
+    var loan = document.getElementById
+    var form = new FormData(myLoan);
+}
+
+form.addEventListener('submit', logSubmit);
+
 if (hourNow > 18){
     greeting = 'Good Evening!';
 } else if (hourNow > 12){

@@ -14,14 +14,17 @@ function Mortgage(amount, rate, terms) {
     }
 }
 
-function logSubmit(event) {
-    log.textContent = 'Form Submitted! Time stamp: ${event.timeStamp}';
-    event.preventDefault();
-    var loan = document.getElementById
-    var form = new FormData(myLoan);
-}
+    document.querySelector('form').onsubmit = function () {
 
-form.addEventListener('submit', logSubmit);
+    let _amount = document.querySelector('#loanAmount').value;
+    let _rate = document.querySelector('#interestRate').value; 
+    let _terms = document.querySelector('#terms').value; 
+
+    var Loan = new Mortgage(_amount, _rate, _terms);
+    document.querySelector('#payment').innerHTML = `Montly Payment: $ ${Loan.GetMonthlyPayment()}`;
+    
+    return false;
+}
 
 if (hourNow > 18){
     greeting = 'Good Evening!';
@@ -32,14 +35,5 @@ if (hourNow > 18){
 } else {
     greeting = 'Welcome!';
 }
-var Loan = new Mortgage(200000, 2.5, 30);
-
-Loan.balance = 198000;
 
 document.write('<h3 class = "text-center">' + greeting + '</h3>');
-
-document.write('<h3 class = "text-center">' + '$ ' + 
-    Loan.GetMonthlyPayment() + '</h3>');
-
-var _loanAmount = document.getElementById('loanAmount');
-

@@ -22,15 +22,15 @@
             <div class="col-md-3">
                 <form class="begin-form" method="POST" id="myLoan">
                     <div class="form-group">
-                        <label class="text-center" for="loanAmount">Enter Loan Amount: </label>
+                        <label class="text-center" for="loanAmount">Loan Amount: </label>
                         <input type="text" name="_loanAmount" id="loanAmount" placeholder="Amount ..." >
                     </div>
                     <div class="form-group">
-                        <label class="text-center" for="interestRate">Enter Interest Rate: </label>
+                        <label class="text-center" for="interestRate">Interest Rate: </label>
                         <input type="text" name="_interestRate" id="interestRate" placeholder="Percentage ..." >
                     </div>
                     <div class="form-group">
-                        <label class="text-center" for="interestRate">Enter Terms: </label>
+                        <label class="text-center" for="interestRate">Loan Terms: </label>
                         <input type="text" name="_terms" id="terms" placeholder="In Years ..." >
                     </div>
                     <div class="form-group">
@@ -48,6 +48,23 @@
 
             <div class="col-md-4"></div>
         </div>
+
+        <div class="row">
+            <h4 id = "initBalance">Initial Balance: $ 0</h4>
+        </div>
+
+        <div class = "row">
+            <table class="table">
+                <tr>
+                    <th>Years</th>
+                    <th>Beginning Balance</th>
+                    <th>Yearly Payment</th>
+                    <th>Interest Paid</th>
+                    <th>Principal Remaining</th>
+                </tr>
+            </table>
+        </div>
+
     </div>
 
 

@@ -11,8 +11,7 @@ if (hourNow > 18){
 } else {
     greeting = 'Welcome!';
 }
-
-document.write('<h3 class = "text-center">' + greeting + '</h3>');
+document.getElementById('greeting').textContent = greeting;
 
 function Mortgage(amount, rate, terms) {
    this.amount = amount; 
@@ -26,14 +25,32 @@ function Mortgage(amount, rate, terms) {
     }
 }
 
-    document.querySelector('form').onsubmit = function () {
-    let _amount = document.querySelector('#loanAmount').value;
-    let _rate = document.querySelector('#interestRate').value; 
-    let _terms = document.querySelector('#terms').value; 
-
-    var Loan = new Mortgage(_amount, _rate, _terms);
-
-    document.querySelector('#payment').innerHTML = `Montly Payment: $ ${Loan.GetMonthlyPayment()}`;
-    document.querySelector('#initBalance').innerHTML = `Initial Balance: $ ${Loan.balance}`;
-    return false;
+function GetTable(row, columm, initValue) {
+    let tbl = document.querySelector('table');
+    for (let rowIndex = 0; rowIndex < row; rowIndex++) {
+        newRow = tbl.insertRow(rowIndex+1);
+        for (let colummIndex = 0; colummIndex < columm; colummIndex++) {
+            newRow.insertCell(colummIndex).innerHTML = rowIndex + 1;
+        }
+    }
 }
+let myForm = document.querySelector('form');
+
+myForm.addEventListener('submit', (event) => {    
+let _amount = document.querySelector('#loanAmount').value;
+let _rate = document.querySelector('#interestRate').value; 
+let _terms = document.querySelector('#terms').value; 
+
+var Loan = new Mortgage(_amount, _rate, _terms);
+
+document.querySelector('#payment').innerHTML = `Montly Payment: $ ${Loan.GetMonthlyPayment()}`;
+document.querySelector('#initBalance').innerHTML = `Initial Balance: $ ${Loan.balance}`;
+
+GetTable(_terms, 5, _amount);
+
+event.preventDefault();
+
+});
+    
+
+    

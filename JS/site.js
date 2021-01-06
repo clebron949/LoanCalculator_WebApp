@@ -34,6 +34,17 @@ function GetTable(row, columm, initValue) {
         }
     }
 }
+
+function DeleteRows() {    
+    let table = document.querySelector('table'); 
+    rowsLength = table.rows.length;
+    if( rowsLength > 1){
+        for (let index = 1; index < rowsLength; index++) {
+            table.deleteRow(1);            
+        }
+    }      
+}
+
 let myForm = document.querySelector('form');
 
 myForm.addEventListener('submit', (event) => {    
@@ -46,10 +57,11 @@ var Loan = new Mortgage(_amount, _rate, _terms);
 document.querySelector('#payment').innerHTML = `Montly Payment: $ ${Loan.GetMonthlyPayment()}`;
 document.querySelector('#initBalance').innerHTML = `Initial Balance: $ ${Loan.balance}`;
 
+DeleteRows();
+
 GetTable(_terms, 5, _amount);
 
 event.preventDefault();
-
 });
     
 

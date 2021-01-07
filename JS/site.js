@@ -13,15 +13,17 @@ if (hourNow > 18){
 }
 document.getElementById('greeting').textContent = greeting;
 
-function Mortgage(amount, rate, terms) {
-   this.amount = amount; 
-   this.rate = rate;
-   this.terms = terms;
-   this.balance = amount;
-   this.GetMonthlyPayment = function() {
-       this.rate = this.rate/100;
-       M = this.amount/12 * ((this.rate * Math.pow(1+this.rate,this.terms))/(Math.pow(1+this.rate,this.terms)-1));
-       return M.toFixed(2);        
+class Mortgage {
+    constructor(amount, rate, terms) {
+        this.amount = amount;
+        this.rate = rate;
+        this.terms = terms;
+        this.balance = amount;
+    }
+    GetMonthlyPayment() {
+        this.rate = this.rate / 100;
+        let M = this.amount / 12 * ((this.rate * Math.pow(1 + this.rate, this.terms)) / (Math.pow(1 + this.rate, this.terms) - 1));
+        return M.toFixed(2);
     }
 }
 

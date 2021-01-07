@@ -1,0 +1,23 @@
+{
+    "Amplifier" : [
+        {
+            "name":"prime400",
+            "model":"",
+            "ohms":"",
+            "power":""
+        } ,
+        {
+            "name":"prime400",
+            "model":"",
+            "ohms":"",
+            "power":""
+        }
+    ],
+    "Speaker" :[
+        {
+            "name":"",
+            "model":"",
+            "ratedPower":""
+        }
+    ]
+}

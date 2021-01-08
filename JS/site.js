@@ -34,9 +34,9 @@ class Mortgage {
     }
 }
 
-function GetTable(row, loan) {
+function GetTable(loan) {
     let tbl = document.querySelector('table');
-    for (let rowIndex = 0; rowIndex < row; rowIndex++) {
+    for (let rowIndex = 0; rowIndex < loan.terms; rowIndex++) {
         newRow = tbl.insertRow(rowIndex+1);
 
         newRow.insertCell(0).innerHTML = rowIndex + 1;
@@ -80,7 +80,7 @@ document.querySelector('#initBalance').innerHTML = `Montly Payment: $ ${Loan.Get
 
 DeleteRows();
 
-GetTable(_terms, Loan);
+GetTable(Loan);
 
 event.preventDefault();
 });

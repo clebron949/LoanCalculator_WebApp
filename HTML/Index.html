@@ -40,13 +40,9 @@
 
             </div>
 
-            <div class="col-md-5">
-                <script>document.write('<h3 class = "text-center">Welcome!</h3>');</script>
-                <h3 id="greeting" class="text-center"> </h3>
-                <h3 class = "text-center" id = "payment"> </h3>
+            <div class="col-md-9" >
+                <canvas id="myChart" style="height: 35px;width: 100px;"> </canvas>                 
             </div>
-
-            <div class="col-md-4"></div>
         </div>
 
         <div class="row">
@@ -61,13 +57,14 @@
                     <th>Yearly Payment</th>
                     <th>Interest Paid</th>
                     <th>Principal Paid</th>
-                    <th>Principal Remaining</th>
+                    <th>Remaining Principal</th>
                 </tr>
             </table>
         </div>
 
     </div>
-
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="../JS/site.js"></script>
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

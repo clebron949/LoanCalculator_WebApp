@@ -1,22 +1,77 @@
-var today = new Date();
-var hourNow = today.getHours();
-var greeting;
+/************* Global Variables *************/
+const dataInterest = [];
+const dataPrincipal = [];
 
-if (hourNow > 18){
-    greeting = 'Good Evening!';
-} else if (hourNow > 12){
-    greeting = 'Good Afternoon!';
-} else if (hourNow > 0){
-    greeting = 'Good Morning!';
-} else {
-    greeting = 'Welcome!';
-}
-document.getElementById('greeting').textContent = greeting;
-
-var money = new Intl.NumberFormat('en-US', {
+/********** Currency Object for Display **********/
+const money = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',});
-  
+    currency: 'USD',})
+;
+
+/************ Data Class ************/  
+class data
+{
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+/********** Creating Chart **********/
+function CreateChart() {
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Interest Paid',
+                data: dataInterest,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+                type: 'line',
+                fill: false,
+                order: 1
+            },
+            {
+                label: 'Remaining Principal',
+                data: dataPrincipal,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                type: 'line',
+                fill: false,
+                order: 2
+            }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    scaleLabel:{
+                        display: true,                
+                        labelString: 'Years'
+                    }
+                }],
+                yAxes: [{    
+                    scaleLabel:{
+                        display: true,                
+                        labelString: 'Dollar ($)' , 
+                    },
+                    
+                    ticks:{
+                        min:0,
+                        callback: function(value, index, values) {
+                            return '$' + value;
+                        }
+                    }                  
+                }]
+            },            
+        }
+    });
+}
+/********** Mortgage Class Definition **********/  
 class Mortgage {
     constructor(amount, rate, terms) {
         this.amount = amount;
@@ -25,35 +80,41 @@ class Mortgage {
         this.balance = Number(amount).toFixed(2);
     }
     GetMonthlyPayment() {
-        let M = this.amount / 12 * ((this.rate * Math.pow(1 + this.rate, this.terms)) / (Math.pow(1 + this.rate, this.terms) - 1));
+        const M = this.amount / 12 * ((this.rate * Math.pow(1 + this.rate, this.terms)) / (Math.pow(1 + this.rate, this.terms) - 1));
         return M.toFixed(2);
     }
     GetYearlyPayment() {
-        let M = this.amount * ((this.rate * Math.pow(1 + this.rate, this.terms)) / (Math.pow(1 + this.rate, this.terms) - 1));
+        const M = this.amount * ((this.rate * Math.pow(1 + this.rate, this.terms)) / (Math.pow(1 + this.rate, this.terms) - 1));
         return M.toFixed(2);
     }
 }
 
+/********** Function for Displaying Data on Table **********/  
 function GetTable(loan) {
-    let tbl = document.querySelector('table');
+    const tbl = document.querySelector('table');
+    let totalRatePayed = 0;
+
     for (let rowIndex = 0; rowIndex < loan.terms; rowIndex++) {
         newRow = tbl.insertRow(rowIndex+1);
-
         newRow.insertCell(0).innerHTML = rowIndex + 1;
         newRow.insertCell(1).innerHTML = money.format(loan.balance);
         newRow.insertCell(2).innerHTML = money.format(loan.GetYearlyPayment());
-
         let ratePayed = (loan.balance * loan.rate).toFixed(2);
+        totalRatePayed += Number(ratePayed);
+        dataInterest[rowIndex] = new data(rowIndex+1, totalRatePayed.toFixed(2)); 
         newRow.insertCell(3).innerHTML = money.format(ratePayed);
-        
         let principalPayed = (loan.GetYearlyPayment() - (loan.balance * loan.rate)).toFixed(2);
         newRow.insertCell(4).innerHTML = money.format(principalPayed);
-        
         loan.balance -= Number(principalPayed).toFixed(2);
+        if(loan.balance < 0){
+            loan.balance = 0;
+        }
+        dataPrincipal[rowIndex] = new data(rowIndex+1, loan.balance.toFixed(2)); 
         newRow.insertCell(5).innerHTML = money.format(loan.balance); 
     }
 }
 
+/********** Function for Deleting Unused Table Rows **********/  
 function DeleteRows() {    
     let table = document.querySelector('table'); 
     rowsLength = table.rows.length;
@@ -64,8 +125,8 @@ function DeleteRows() {
     }      
 }
 
+/********** EventListener for when form is submited **********/  
 let myForm = document.querySelector('form');
-
 myForm.addEventListener('submit', (event) => {    
 let _amount = document.querySelector('#loanAmount').value;
 let _rate = document.querySelector('#interestRate').value; 
@@ -73,15 +134,11 @@ if(_rate == 0){
     _rate = 0.00001;
 };
 let _terms = document.querySelector('#terms').value; 
-
 var Loan = new Mortgage(_amount, _rate, _terms);
-
-document.querySelector('#initBalance').innerHTML = `Montly Payment: $ ${Loan.GetMonthlyPayment().replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-
+document.querySelector('#initBalance').innerHTML = `Montly Payment: ${money.format(Loan.GetMonthlyPayment())}`;
 DeleteRows();
-
 GetTable(Loan);
-
+CreateChart();
 event.preventDefault();
 });
     

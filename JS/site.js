@@ -1,6 +1,6 @@
 /************* Global Variables *************/
-
-
+let value = '';
+let count = Number(0);
 /********** Currency Object for Display **********/
 const money = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -150,7 +150,22 @@ CreateChart(_Interest, _Principal);
 event.preventDefault();
 });
 
-
+/********** EventListener for formating Amount input field **********/  
+const formAmount = document.getElementById('loanAmount');
+formAmount.addEventListener('keypress', (event) => {
+    console.log(event.key);
+    count++;
+    value += event.key;
+    if(count % 3 === 0)
+    {
+        console.log('count is: ' + count);
+        value += ',';
+    }
+    const target = event.target
+    console.log(target);
+    target.value = '$ ' + value;
+    //amountValue.innerHTML = ;
+});
     
 
     

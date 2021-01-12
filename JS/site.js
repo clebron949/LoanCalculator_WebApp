@@ -150,22 +150,7 @@ CreateChart(_Interest, _Principal);
 event.preventDefault();
 });
 
-const formAmount = document.getElementById('loanAmount');
-formAmount.addEventListener('keypress', (event) => {
-    console.log(event.key);
-    let amountValue = document.getElementById('loanAmount');
-    let value = money.format(amountValue.value);
-    if(value === '$NaN')
-    {
-        value = amountValue.value;
-    }
-    console.log(value);
-    const target = event.target
-    console.log(value);
-    console.log(target);
-    target.value = value;
-    //amountValue.innerHTML = ;
-});
+
     
 
     

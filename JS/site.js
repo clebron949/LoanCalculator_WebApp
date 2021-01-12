@@ -1,6 +1,5 @@
 /************* Global Variables *************/
-const dataInterest = [];
-const dataPrincipal = [];
+
 
 /********** Currency Object for Display **********/
 const money = new Intl.NumberFormat('en-US', {
@@ -18,7 +17,7 @@ class data
 }
 
 /********** Creating Chart **********/
-function CreateChart() {
+function CreateChart(dataInterest, dataPrincipal) {
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'scatter',
@@ -93,25 +92,34 @@ class Mortgage {
 function GetTable(loan) {
     const tbl = document.querySelector('table');
     let totalRatePayed = 0;
+    let ratePayed = 0;
+    let principalPayed = 0;
+    let interest = [];
+    let principal = [];
+
+    interest[0] = new data(0, 0);
+    principal[0] = new data(0, loan.balance);
 
     for (let rowIndex = 0; rowIndex < loan.terms; rowIndex++) {
         newRow = tbl.insertRow(rowIndex+1);
         newRow.insertCell(0).innerHTML = rowIndex + 1;
         newRow.insertCell(1).innerHTML = money.format(loan.balance);
         newRow.insertCell(2).innerHTML = money.format(loan.GetYearlyPayment());
-        let ratePayed = (loan.balance * loan.rate).toFixed(2);
+        ratePayed = (loan.balance * loan.rate).toFixed(2);
         totalRatePayed += Number(ratePayed);
-        dataInterest[rowIndex] = new data(rowIndex+1, totalRatePayed.toFixed(2)); 
+        interest[rowIndex+1] = new data(rowIndex+1, totalRatePayed.toFixed(2)); 
         newRow.insertCell(3).innerHTML = money.format(ratePayed);
-        let principalPayed = (loan.GetYearlyPayment() - (loan.balance * loan.rate)).toFixed(2);
+        principalPayed = (loan.GetYearlyPayment() - (loan.balance * loan.rate)).toFixed(2);
         newRow.insertCell(4).innerHTML = money.format(principalPayed);
         loan.balance -= Number(principalPayed).toFixed(2);
         if(loan.balance < 0){
             loan.balance = 0;
         }
-        dataPrincipal[rowIndex] = new data(rowIndex+1, loan.balance.toFixed(2)); 
+
+        principal[rowIndex+1] = new data(rowIndex+1, loan.balance.toFixed(2)); 
         newRow.insertCell(5).innerHTML = money.format(loan.balance); 
-    }
+    };
+    return [interest, principal];
 }
 
 /********** Function for Deleting Unused Table Rows **********/  
@@ -137,9 +145,26 @@ let _terms = document.querySelector('#terms').value;
 var Loan = new Mortgage(_amount, _rate, _terms);
 document.querySelector('#initBalance').innerHTML = `Montly Payment: ${money.format(Loan.GetMonthlyPayment())}`;
 DeleteRows();
-GetTable(Loan);
-CreateChart();
+let [_Interest, _Principal] = GetTable(Loan);
+CreateChart(_Interest, _Principal);
 event.preventDefault();
+});
+
+const formAmount = document.getElementById('loanAmount');
+formAmount.addEventListener('keypress', (event) => {
+    console.log(event.key);
+    let amountValue = document.getElementById('loanAmount');
+    let value = money.format(amountValue.value);
+    if(value === '$NaN')
+    {
+        value = amountValue.value;
+    }
+    console.log(value);
+    const target = event.target
+    console.log(value);
+    console.log(target);
+    target.value = value;
+    //amountValue.innerHTML = ;
 });
     
 

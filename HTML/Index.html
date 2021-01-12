@@ -11,19 +11,21 @@
 </head>
 
 <body>
-    <div class="container">
+    <div id="container1" class="container">
         <div class="row first-row">
             <div class="col-md-12">
                 <h3 class="text-center display-4" id="row1">Loan Calculator</h3>
             </div>      
         </div>
-        
+    </div> 
+
+    <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <form class="begin-form" id="myLoan">
                     <div class="form-group">
                         <label class="text-center" for="loanAmount">Loan Amount: </label>
-                        <input type="text" name="_loanAmount" id="loanAmount" placeholder="Amount ..." class="text-center">
+                        <input type="text" name="_loanAmount" id="loanAmount" placeholder="Amount ..." class="text-center" prefix="">
                     </div>
                     <div class="form-group">
                         <label class="text-center" for="interestRate">Interest Rate: </label>

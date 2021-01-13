@@ -1,6 +1,8 @@
 /************* Global Variables *************/
-
-
+let value = '';
+let valueRate = '';
+let count = Number(0);
+let rawAmount = '';
 /********** Currency Object for Display **********/
 const money = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -136,7 +138,7 @@ function DeleteRows() {
 /********** EventListener for when form is submited **********/  
 let myForm = document.querySelector('form');
 myForm.addEventListener('submit', (event) => {    
-let _amount = document.querySelector('#loanAmount').value;
+let _amount = document.querySelector('#loanAmount').value; 
 let _rate = document.querySelector('#interestRate').value; 
 if(_rate == 0){
     _rate = 0.00001;
@@ -150,7 +152,3 @@ CreateChart(_Interest, _Principal);
 event.preventDefault();
 });
 
-
-    
-
-    

@@ -18,60 +18,6 @@ class data
     }
 }
 
-/********** Creating Chart **********/
-function CreateChart(dataInterest, dataPrincipal) {
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'scatter',
-        data: {
-            datasets: [{
-                label: 'Interest Paid',
-                data: dataInterest,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1,
-                type: 'line',
-                fill: false,
-                order: 1
-            },
-            {
-                label: 'Remaining Principal',
-                data: dataPrincipal,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1,
-                type: 'line',
-                fill: false,
-                order: 2
-            }],
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: 'linear',
-                    position: 'bottom',
-                    scaleLabel:{
-                        display: true,                
-                        labelString: 'Years'
-                    }
-                }],
-                yAxes: [{    
-                    scaleLabel:{
-                        display: true,                
-                        labelString: 'Dollar ($)' , 
-                    },
-                    
-                    ticks:{
-                        min:0,
-                        callback: function(value, index, values) {
-                            return '$' + value;
-                        }
-                    }                  
-                }]
-            },            
-        }
-    });
-}
 /********** Mortgage Class Definition **********/  
 class Mortgage {
     constructor(amount, rate, terms) {
@@ -145,10 +91,12 @@ if(_rate == 0){
 };
 let _terms = document.querySelector('#terms').value; 
 var Loan = new Mortgage(_amount, _rate, _terms);
-document.querySelector('#initBalance').innerHTML = `Montly Payment: ${money.format(Loan.GetMonthlyPayment())}`;
+document.querySelector('#initBalance').innerHTML = 
+    `Montly Payment: ${money.format(Loan.GetMonthlyPayment())}`;
 DeleteRows();
 let [_Interest, _Principal] = GetTable(Loan);
-CreateChart(_Interest, _Principal);
+document.querySelector('#totalInterestPaid').innerHTML = 
+    `Total Interest Paid: $ ${_Interest[_Interest.length-1].y}`;
 event.preventDefault();
 });
 
